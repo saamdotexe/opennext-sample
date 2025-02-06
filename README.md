@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Repro
 
-## Getting Started
+A reproducible example of a bug with opennexjs/cloudflare@>=0.4
 
-First, run the development server:
+⚠️ Note: I used Discord as an authentication provider, but you can use any provider you want from the list of supported ones on [Better Auth's documentation](https://www.better-auth.com/docs/introduction)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+If you change provider update the files at:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `src/components/SignIn.tsx`
+- `src/utils/auth.ts`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create `.env.local` and `.dev.vars` files with the following content:
 
-## Learn More
+    ```env
+    NEXTJS_ENV=development
+    BETTER_AUTH_URL=http://localhost:3000 #Base URL of your app
+    BETTER_AUTH_SECRET="XXXX"
 
-To learn more about Next.js, take a look at the following resources:
+    CLOUDFLARE_ACCOUNT_ID="XXX"
+    CLOUDFLARE_DATABASE_ID="XXX"
+    CLOUDFLARE_API_TOKEN="XXX"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    DISCORD_CLIENT_ID="XXX"
+    DISCORD_CLIENT_SECRET="XXX"
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Run `pnpm install` to install dependencies
 
-## Deploy on Vercel
+3. Run `pnpm db:local` to create and apply migrations to the local D1 database
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Run `pnpm dev` to start the development server
